@@ -12,8 +12,8 @@ it can be run only on the same machine where the database server is running.
 
 ## Usage
 ```
- python sql_dump_02.py -h
-usage: sql_dump_02.py [-h] --databases DATABASE --path OUTPUT_DIR
+ python sql_dump.py   -h
+usage: sql_dump.py    [-h] --databases DATABASE --path OUTPUT_DIR
                       [--ignore-columns IGNORE_COLUMNS]
                       [--ignore-tables IGNORE_TABLES] [--host HOSTNAME]
                       [--user DB_USER] [--password DB_PASS]
@@ -52,7 +52,7 @@ Ignore following columns:
 customerName,contactLastName,contactFirstName,phone,postalCode,country,addressLine1,addressLine2 
 
 ```
-$ sudo python sql_dump_02.py \
+$ sudo python sql_dump.py \
 > --user dba \
 > --ignore-columns customerName,contactLastName,contactFirstName,phone,postalCode,country,addressLine1,addressLine2 \
 > --databases classicmodels \
