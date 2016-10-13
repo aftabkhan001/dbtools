@@ -94,3 +94,15 @@ mysql [classicmodels_REDACTED]> select * from customers;
 |            124 | San Rafael        | CA            |                   1165 |   210500.00 |
 |            125 | Warszawa          | NULL          |                   NULL |        0.00 |
 ```
+
+## Known issues:
+* Error: File already exists
+```
+ERROR 1086 (HY000) at line 1: File '/data/backup/sql_dump//customers.txt' already exists
+```
+This happpens when output directory is not empty.
+* Error Permission denied
+```
+ERROR 1 (HY000) at line 1: Can't create/write to file '/data/backup/sql_dump/customers.txt' (Errcode: 13 "Permission denied"
+```
+When the output directory not owned by user `mysql`
