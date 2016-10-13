@@ -48,7 +48,7 @@ Below examples use sample database: http://www.mysqltutorial.org/mysql-sample-da
 ***Backup***
 
 * Using `--ignore-columns` to ignore columns
-Ignore following columns:
+Ignore following columns from all tables ( in this case we have these columns in `customers` table)
 customerName,contactLastName,contactFirstName,phone,postalCode,country,addressLine1,addressLine2 
 
 ```
