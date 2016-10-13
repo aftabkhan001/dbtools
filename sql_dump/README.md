@@ -80,7 +80,7 @@ mysql> SET GLOBAL FOREIGN_KEY_CHECKS=0;
 
 ***Verify***
 
-Examine contents of `customers' table:
+Examine contents of `customers` table:
 ```
 mysql [classicmodels_REDACTED]> select * from customers;
 +----------------+-------------------+---------------+------------------------+-------------+
