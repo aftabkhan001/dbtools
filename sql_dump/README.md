@@ -128,6 +128,7 @@ mysql [classicmodels_REDACTED]> select * from customers;
 |            121 | Stavern           | NULL          |                   1504 |    81700.00 |
 |            124 | San Rafael        | CA            |                   1165 |   210500.00 |
 |            125 | Warszawa          | NULL          |                   NULL |        0.00 |
+...
 ```
 
 ## Known issues:
