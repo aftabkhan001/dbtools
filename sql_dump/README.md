@@ -1,4 +1,4 @@
-## Making MySQL backups using sql_dump
+## Making MySQL backups (sensitive or private information removed)
 
 The sql_dump client utility performs logical backups, producing CSV text-format data files. It supports `--ignore-columns` option, that can be used to ignore specific column(s) e.g. sensitive information such as user name, address, bank account number etc 
 
