@@ -97,7 +97,16 @@ cat /data/backup/sql_dump/*.sql | mysql -udba -p classicmodels_REDACTED
 ```
 * Load data files
 ```
-mysqlimport -udba -p --local classicmodels_REDACTED /data/backup/sql_dump/*.txt --fields-optionally-enclosed-by='"' --fields-terminated-by=',' --replace --use-threads=5
+$ mysqlimport -udba -p --local classicmodels_REDACTED /data/backup/sql_dump/*.txt --fields-optionally-enclosed-by='"' --fields-terminated-by=',' --replace --use-threads=5
+Enter password:
+classicmodels_REDACTED.employees: Records: 23  Deleted: 0  Skipped: 0  Warnings: 0
+classicmodels_REDACTED.offices: Records: 7  Deleted: 0  Skipped: 0  Warnings: 0
+classicmodels_REDACTED.productlines: Records: 7  Deleted: 0  Skipped: 0  Warnings: 0
+classicmodels_REDACTED.customers: Records: 122  Deleted: 0  Skipped: 0  Warnings: 0
+classicmodels_REDACTED.payments: Records: 273  Deleted: 0  Skipped: 0  Warnings: 0
+classicmodels_REDACTED.products: Records: 110  Deleted: 0  Skipped: 0  Warnings: 0
+classicmodels_REDACTED.orders: Records: 326  Deleted: 0  Skipped: 0  Warnings: 0
+classicmodels_REDACTED.orderdetails: Records: 2996  Deleted: 0  Skipped: 0  Warnings: 0
 ```
 * Enable `foreign key` checks
 ```
