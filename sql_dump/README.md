@@ -60,6 +60,28 @@ $ sudo python sql_dump.py \
 Enter password (dba):
 
 ```
+*Backup files:
+```
+$ ls -lh /data/backup/sql_dump/
+total 208K
+-rw-r--r-- 1 root  root  2.0K Oct 13 11:14 customers.sql
+-rw-rw-rw- 1 mysql mysql 3.9K Oct 13 11:14 customers.txt
+-rw-r--r-- 1 root  root  2.2K Oct 13 11:14 employees.sql
+-rw-rw-rw- 1 mysql mysql 1.9K Oct 13 11:14 employees.txt
+-rw-r--r-- 1 root  root  1.8K Oct 13 11:14 offices.sql
+-rw-rw-rw- 1 mysql mysql  174 Oct 13 11:14 offices.txt
+-rw-r--r-- 1 root  root  2.1K Oct 13 11:14 orderdetails.sql
+-rw-rw-rw- 1 mysql mysql  85K Oct 13 11:14 orderdetails.txt
+-rw-r--r-- 1 root  root  2.0K Oct 13 11:14 orders.sql
+-rw-rw-rw- 1 mysql mysql  27K Oct 13 11:14 orders.txt
+-rw-r--r-- 1 root  root  1.9K Oct 13 11:14 payments.sql
+-rw-rw-rw- 1 mysql mysql 9.9K Oct 13 11:14 payments.txt
+-rw-r--r-- 1 root  root  1.8K Oct 13 11:14 productlines.sql
+-rw-rw-rw- 1 mysql mysql 3.4K Oct 13 11:14 productlines.txt
+-rw-r--r-- 1 root  root  2.1K Oct 13 11:14 products.sql
+-rw-rw-rw- 1 mysql mysql  30K Oct 13 11:14 products.txt
+```
+
 ***Restore***
 
 When restoring backup, perform following steps:
