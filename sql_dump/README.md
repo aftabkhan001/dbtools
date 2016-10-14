@@ -7,9 +7,6 @@ Install following tools/packages
 * `Python 2.7.x`
 * `mysql connector/python` - e.g. mysql-connector-python-2.0.4.zip
 
-## Limitations
-it can be run only on the same machine where the database server is running.
-
 ## Usage
 ```
 $ python sql_dump.py   -h
