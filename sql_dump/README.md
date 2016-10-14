@@ -55,7 +55,7 @@ $ sudo python sql_dump.py \
 Enter password (dba):
 
 ```
-**Output files:
+**Output files:**
 ```
 $ ls -lh /data/backup/sql_dump/
 total 208K
