@@ -22,6 +22,7 @@ server="localhost"
 admin_user=""
 admin_pass=""
 output_path="/tmp"
+verbose=0
 
 try:
 
@@ -65,12 +66,17 @@ try:
                    for rs in resultset:
                        sql="SELECT SQL_NO_CACHE " + str(rs[1]) + " INTO OUTFILE '"+ output_path + "/"+str(tbl[0]) +".txt' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\\\"'  FROM "+ str(tbl[0])
                        cmd='mysql -h'+server + ' -u'+admin_user+' -p'+admin_pass + ' '+ db +' --execute=\"'+ sql +'\"'
-                       #print cmd
+                       if verbose:
+                          print color.BLUE+ sql + color.END + "\n"
                        status,out=commands.getstatusoutput(cmd)
                        if status !=0:
                           raise ValueError(str(out.replace(admin_pass,'*******')) )
-                       cmd="mysqldump -h"+server + " -u"+admin_user+" -p"+admin_pass + " --no-data "+ db +" " + str(tbl[0]) + " | egrep -v " + "'%s'" %"|".join(ignore_columns) + " > "+ output_path + "/"+str(tbl[0]) + ".sql"
-                       #end_sub(str(cmd))
+                       if len(ignore_columns)>0:
+                              cmd="mysqldump -h"+server + " -u"+admin_user+" -p"+admin_pass + " --no-data "+ db +" " + str(tbl[0]) + " | egrep -v " + "'%s'" %"|".join(ignore_columns) + " > "+ output_path + "/"+str(tbl[0]) + ".sql"
+                       else:
+                              cmd="mysqldump -h"+server + " -u"+admin_user+" -p"+admin_pass + " --no-data "+ db +" " + str(tbl[0])  + " > "+ output_path + "/"+str(tbl[0]) + ".sql"
+                       #if verbose:
+                       #     print (color.CYAN+str(cmd.replace(admin_pass,'*******'))+color.END+ "\n")
                        status,out=commands.getstatusoutput(cmd)
                        if status !=0:
                           raise ValueError(str(out.replace(admin_pass,'*******')) )
@@ -78,7 +84,6 @@ try:
            cnx.close()
        except (KeyboardInterrupt, SystemExit):
            raise
-           end_sub(str(err))
 
 # Read command line args
 #myopts, args = getopt.getopt(sys.argv[1:],"",['host=','user=','password=','database=','where=','limit='])
@@ -106,11 +111,8 @@ try:
     parser.add_argument('--password', dest='db_pass', default=None,
                    help='Password to use when connecting to server')
 
-    parser.add_argument('--log-error', dest='log_error', type=str,
-                   help='Append warnings and errors to given file (default: %(default)s) ', default=None)
-
-    parser.add_argument('--flush-logs', dest='flush_logs', action='store_true',
-                   help='Flush logs file in server before starting dump. ')
+    parser.add_argument('--verbose', dest='verbose', action='store_true',
+                   help='Print info about the various stages. ')
 
     args = parser.parse_args()
 # processing command-line parameters
@@ -131,7 +133,9 @@ try:
        ignore_tables=args.ignore_tables.split(',')
     if args.output_dir:
        output_path=args.output_dir
-   # Start data export
+    if args.verbose:
+       verbose=args.verbose
+    # Start data export
     export_data()
 except Exception, err:
        end_sub(color.RED +  str(err) + color.END)
