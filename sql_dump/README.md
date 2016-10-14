@@ -90,7 +90,9 @@ cat /data/backup/sql_dump/*.sql | mysql -udba -p classicmodels_REDACTED
 * Load data files
 ```
 $ cd /data/backup/sql_dump
+
 $ echo 'SET FOREIGN_KEY_CHECKS=0;' > /tmp/load_data.sql
+
 $ for file in $(ls *.txt) ; \
 > do table=$(echo $file|sed 's/.txt//g') ; \
 > echo "LOAD DATA INFILE '$(pwd)/${file}' REPLACE INTO TABLE $table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';" >> /tmp/load_data.sql ; \
