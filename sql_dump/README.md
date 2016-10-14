@@ -12,12 +12,11 @@ it can be run only on the same machine where the database server is running.
 
 ## Usage
 ```
- python sql_dump.py   -h
-usage: sql_dump.py    [-h] --databases DATABASE --path OUTPUT_DIR
-                      [--ignore-columns IGNORE_COLUMNS]
-                      [--ignore-tables IGNORE_TABLES] [--host HOSTNAME]
-                      [--user DB_USER] [--password DB_PASS]
-                      [--log-error LOG_ERROR] [--flush-logs]
+$ python sql_dump.py   -h
+usage: sql_dump.py [-h] --databases DATABASE --path OUTPUT_DIR
+                   [--ignore-columns IGNORE_COLUMNS]
+                   [--ignore-tables IGNORE_TABLES] [--host HOSTNAME]
+                   [--user DB_USER] [--password DB_PASS] [--verbose]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -35,10 +34,8 @@ optional arguments:
   --host HOSTNAME       Connect to host (default: localhost)
   --user DB_USER        User for login, (default: root)
   --password DB_PASS    Password to use when connecting to server
-  --log-error LOG_ERROR
-                        Append warnings and errors to given file (default:
-                        None)
-  --flush-logs          Flush logs file in server before starting dump.
+  --verbose             Print info about the various stages.
+
 ```
 
 **Examples**
@@ -82,7 +79,6 @@ total 208K
 -rw-r--r-- 1 root  root  2.1K Oct 13 11:14 products.sql
 -rw-rw-rw- 1 mysql mysql  30K Oct 13 11:14 products.txt
 ```
-
 ***Restore***
 
 When restoring backup, perform following steps:
