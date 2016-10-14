@@ -85,7 +85,6 @@ When restoring backup, perform following steps:
 * Create database on destination server and disable `foreign key` checks
 ```
 mysql> CREATE DATABASE IF NOT EXISTS classicmodels_REDACTED;
-mysql> SET GLOBAL FOREIGN_KEY_CHECKS=0;
 ```
 * Create tables 
 ```
@@ -93,20 +92,15 @@ cat /data/backup/sql_dump/*.sql | mysql -udba -p classicmodels_REDACTED
 ```
 * Load data files
 ```
-$ mysqlimport -udba -p --local classicmodels_REDACTED /data/backup/sql_dump/*.txt --fields-optionally-enclosed-by='"' --fields-terminated-by=',' --replace --use-threads=5
+$ cd /data/backup/sql_dump
+$ echo 'SET FOREIGN_KEY_CHECKS=0;' > /tmp/load_data.sql
+$ for file in $(ls *.txt) ; \
+> do table=$(echo $file|sed 's/.txt//g') ; \
+> echo "LOAD DATA INFILE '$(pwd)/${file}' REPLACE INTO TABLE $table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';" >> /tmp/load_data.sql ; \
+> done
+
+$ cat /tmp/load_data.sql | mysql -udba -p classicmodels_REDACTED
 Enter password:
-classicmodels_REDACTED.employees: Records: 23  Deleted: 0  Skipped: 0  Warnings: 0
-classicmodels_REDACTED.offices: Records: 7  Deleted: 0  Skipped: 0  Warnings: 0
-classicmodels_REDACTED.productlines: Records: 7  Deleted: 0  Skipped: 0  Warnings: 0
-classicmodels_REDACTED.customers: Records: 122  Deleted: 0  Skipped: 0  Warnings: 0
-classicmodels_REDACTED.payments: Records: 273  Deleted: 0  Skipped: 0  Warnings: 0
-classicmodels_REDACTED.products: Records: 110  Deleted: 0  Skipped: 0  Warnings: 0
-classicmodels_REDACTED.orders: Records: 326  Deleted: 0  Skipped: 0  Warnings: 0
-classicmodels_REDACTED.orderdetails: Records: 2996  Deleted: 0  Skipped: 0  Warnings: 0
-```
-* Enable `foreign key` checks
-```
-mysql> SET GLOBAL FOREIGN_KEY_CHECKS=0;
 ```
 
 ***Verify***
