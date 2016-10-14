@@ -118,7 +118,7 @@ mysql [classicmodels_REDACTED]> select * from customers;
 ...
 ```
 
-## Known issues:
+## Known issues & limitations:
 * Error: File already exists
 ```
 ERROR 1086 (HY000) at line 1: File '/data/backup/sql_dump//customers.txt' already exists
@@ -129,3 +129,4 @@ This happpens when output directory is not empty.
 ERROR 1 (HY000) at line 1: Can't create/write to file '/data/backup/sql_dump/customers.txt' (Errcode: 13 "Permission denied"
 ```
 When the output directory not owned by user `mysql`
+* Output files (*.sql and *.txt) are created on the server host running MySQL instance, so it is not possible to create resulting files on a host other than the server host.
