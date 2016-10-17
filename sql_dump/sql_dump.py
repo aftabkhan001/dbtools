@@ -44,6 +44,13 @@ try:
       except Exception, err:
            end_sub(str(err))
 
+    def data_anonymized(column,data_type):
+        string_types="varchar,char,text,mediumtext,longtext,blob,mediumblob,longblob"
+        if re.search(r''+ data_type +'', string_types, re.M|re.I):
+           return " REPEAT(\'*\', LENGTH("+column+"))"
+        else:
+           return 0
+
     def export_data():
        try:
            for db in database:
@@ -58,28 +65,31 @@ try:
                   tables_to_export=cursor.fetchall()
                # Dump data excluding data using --ignore_columns list
                for tbl in tables_to_export:
-                   sql="select t1.table_name, GROUP_CONCAT(t1.column_name) cols FROM (select table_name, column_name from information_schema.columns where TABLE_SCHEMA='"+str(db) +"' AND column_name NOT IN ("+"'%s'" %"','".join(ignore_columns) +")) t1 WHERE  t1.table_name ='"+str(tbl[0])+"'"
+                   sql="SELECT table_name, column_name cols, data_type FROM information_schema.columns where TABLE_SCHEMA='"+str(db) +"' and  table_name ='"+str(tbl[0])+"'"
                    #print sql
                    cursor.execute(sql)
                    # Start dumping
                    resultset=cursor.fetchall()
+                   columns=[]
                    for rs in resultset:
-                       sql="SELECT SQL_NO_CACHE " + str(rs[1]) + " INTO OUTFILE '"+ output_path + "/"+str(tbl[0]) +".txt' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\\\"'  FROM "+ str(tbl[0])
-                       cmd='mysql -h'+server + ' -u'+admin_user+' -p'+admin_pass + ' '+ db +' --execute=\"'+ sql +'\"'
-                       if verbose:
-                          print color.BLUE+ sql + color.END + "\n"
-                       status,out=commands.getstatusoutput(cmd)
-                       if status !=0:
-                          raise ValueError(str(out.replace(admin_pass,'*******')) )
-                       if len(ignore_columns)>0:
-                              cmd="mysqldump -h"+server + " -u"+admin_user+" -p"+admin_pass + " --no-data "+ db +" " + str(tbl[0]) + " | egrep -v " + "'%s'" %"|".join(ignore_columns) + " > "+ output_path + "/"+str(tbl[0]) + ".sql"
+                       if re.search(r''+ rs[1] +'', "'%s'" %"','".join(ignore_columns), re.M|re.I):
+                          columns.append(str(data_anonymized(rs[1],rs[2])))
                        else:
-                              cmd="mysqldump -h"+server + " -u"+admin_user+" -p"+admin_pass + " --no-data "+ db +" " + str(tbl[0])  + " > "+ output_path + "/"+str(tbl[0]) + ".sql"
-                       #if verbose:
-                       #     print (color.CYAN+str(cmd.replace(admin_pass,'*******'))+color.END+ "\n")
-                       status,out=commands.getstatusoutput(cmd)
-                       if status !=0:
-                          raise ValueError(str(out.replace(admin_pass,'*******')) )
+                          columns.append(str(rs[1]))
+                       #print rs[0] +"---"+rs[1] + "---" + str(data_anonymized(rs[2])) + "-" + rs[2]
+                   sql="SELECT SQL_NO_CACHE " + str(','.join(columns)) + " INTO OUTFILE '"+ output_path + "/"+str(tbl[0]) +".txt' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\\\"'  FROM "+ str(tbl[0])
+                   cmd='mysql -h'+server + ' -u'+admin_user+' -p'+admin_pass + ' '+ db +' --execute=\"'+ sql +'\"'
+                   if verbose:
+                       print color.BLUE+ sql + color.END + "\n"
+                   status,out=commands.getstatusoutput(cmd)
+                   if status !=0:
+                      raise ValueError(str(out.replace(admin_pass,'*******')) )
+                   cmd="mysqldump -h"+server + " -u"+admin_user+" -p"+admin_pass + " --no-data "+ db +" " + str(tbl[0])  + " > "+ output_path + "/"+str(tbl[0]) + ".sql"
+                   #if verbose:
+                   #     print (color.CYAN+str(cmd.replace(admin_pass,'*******'))+color.END+ "\n")
+                   status,out=commands.getstatusoutput(cmd)
+                   if status !=0:
+                      raise ValueError(str(out.replace(admin_pass,'*******')) )
            cursor.close()
            cnx.close()
        except (KeyboardInterrupt, SystemExit):
