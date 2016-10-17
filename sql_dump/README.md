@@ -1,6 +1,6 @@
 ## Making MySQL backups (Masking sensitive or private information )
 
-The sql_dump client utility performs logical backups, producing CSV text-format data files. It supports `--ignore-columns` option,  to  replace sensitive column values with 'scrambled text'.
+The sql_dump client utility performs logical backups, producing CSV text-format data files. It supports `--ignore-columns` option,  to  replace sensitive column values with data mask.
 
 ## Requirements
 Install following tools/packages
