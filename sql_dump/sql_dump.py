@@ -72,8 +72,11 @@ try:
                    resultset=cursor.fetchall()
                    columns=[]
                    for rs in resultset:
-                       if re.search(r''+ rs[1] +'', "'%s'" %"','".join(ignore_columns), re.M|re.I):
+                       phrase="%s" %",".join(ignore_columns)
+                       word="\\b" + rs[1] + "\\b"
+                       if re.search(r''+word, phrase,flags=re.IGNORECASE):
                           columns.append(str(data_anonymized(rs[1],rs[2])))
+                          #print "Table:"+ str(tbl[0])+ " " + str(word) + ""
                        else:
                           columns.append(str(rs[1]))
                        #print rs[0] +"---"+rs[1] + "---" + str(data_anonymized(rs[2])) + "-" + rs[2]
