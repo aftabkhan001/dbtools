@@ -45,7 +45,7 @@ try:
            end_sub(str(err))
 
     def data_anonymized(column,data_type):
-        string_types="varchar,char,text,mediumtext,longtext,blob,mediumblob,longblob"
+        string_types="varchar,char,binary,varbinary,text,mediumtext,longtext,blob,mediumblob,longblob"
         if re.search(r''+ data_type +'', string_types, re.M|re.I):
            return " REPEAT(\'*\', LENGTH("+column+"))"
         else:
