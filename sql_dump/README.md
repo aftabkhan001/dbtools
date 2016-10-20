@@ -34,6 +34,33 @@ optional arguments:
   --verbose             Print info about the various stages.
 
 ```
+## Supported Data Types
+The list of supported data types
+
+**String Types**
+* CHAR
+* VARCHAR
+* BINARY
+* VARBINARY
+* TEXT
+* BLOB
+* MEDIUMBLOB
+* MEDIUMTEXT
+* LONGTEXT
+* LONGBLOB
+
+**Date Types**
+* DATETIME
+* TIMESTAMP
+
+**Numeric Types**
+* INT
+* DECIMAL 
+* FLOAT
+
+## Masking Rules
+All string values are replaced with star "x" times length of the values stored in the column e.g. 'abc' would be masked as 'xxx'.
+Datetime and timestamp are replaced with `0000-00-00 00:00:00`, and numeric data is replaced with value 0
 
 **Examples**
 
