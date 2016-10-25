@@ -47,7 +47,7 @@ try:
     def data_anonymized(column,data_type):
         string_types="varchar,char,binary,varbinary,text,mediumtext,longtext,blob,mediumblob,longblob"
         if re.search(r''+ data_type +'', string_types, re.M|re.I):
-           return " REPEAT(\'*\', LENGTH("+column+"))"
+           return " REPEAT(\'*\', LENGTH(\`"+column+"\`))"
         else:
            return 0
 
@@ -78,12 +78,12 @@ try:
                           columns.append(str(data_anonymized(rs[1],rs[2])))
                           #print "Table:"+ str(tbl[0])+ " " + str(word) + ""
                        else:
-                          columns.append(str(rs[1]))
+                          columns.append("\`"+str(rs[1]+"\`"))
                        #print rs[0] +"---"+rs[1] + "---" + str(data_anonymized(rs[2])) + "-" + rs[2]
                    sql="SELECT SQL_NO_CACHE " + str(','.join(columns)) + " INTO OUTFILE '"+ output_path + "/"+str(tbl[0]) +".txt' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\\\"'  FROM "+ str(tbl[0])
                    cmd='mysql -h'+server + ' -u'+admin_user+' -p'+admin_pass + ' '+ db +' --execute=\"'+ sql +'\"'
                    if verbose:
-                       print color.BLUE+ sql + color.END + "\n"
+                       print sql.replace('\\','') + "\n"
                    status,out=commands.getstatusoutput(cmd)
                    if status !=0:
                       raise ValueError(str(out.replace(admin_pass,'*******')) )
