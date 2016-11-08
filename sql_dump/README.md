@@ -59,16 +59,15 @@ The list of supported data types
 * FLOAT
 
 ## Masking Rules
-All string values are replaced with MD5 checksum of the values stored in the column e.g. 'abc' would be masked as followed:
+All string values are replaced with MD5 checksum of the values stored in the column e.g. 'secret' would be masked as followed:
 ```
- SELECT RIGHT(MD5('abc'),LENGTH('abc'));
-+---------------------------------+
-| RIGHT(MD5('abc'),LENGTH('abc')) |
-+---------------------------------+
-| f72                             |
-+---------------------------------+
+SELECT RIGHT(MD5('abc'),LENGTH('secret'));
++------------------------------------+
+| RIGHT(MD5('abc'),LENGTH('secret')) |
++------------------------------------+
+| e17f72                             |
++------------------------------------+
 1 row in set (0.00 sec)
-
 ```
 Datetime and timestamp are replaced with `0000-00-00 00:00:00`, and numeric data is replaced with value 0
 
