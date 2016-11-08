@@ -47,14 +47,15 @@ try:
     def data_anonymized(column,data_type):
         string_types="varchar,char,binary,varbinary,text,mediumtext,longtext,blob,mediumblob,longblob"
         if re.search(r''+ data_type +'', string_types, re.M|re.I):
-           return " REPEAT(\'*\', LENGTH(\`"+column+"\`))"
+           #return " REPEAT(\'*\', LENGTH(\`"+column+"\`))"
+           return " right(md5("+ column+ "), length(" + column +")) "
         else:
            return 0
 
     def export_data():
        try:
            for db in database:
-               sql="SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='" + str(db) + "' AND TABLE_NAME NOT IN (" + "'%s'" %"','".join(ignore_tables) + ")"
+               sql="SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='" + str(db) + "' AND TABLE_TYPE <> 'VIEW' AND TABLE_NAME NOT IN (" + "'%s'" %"','".join(ignore_tables) + ")"
                cnx=db_connect(admin_user,admin_pass,server)
                cnx.raise_on_warnings=True
                cursor = cnx.cursor()
