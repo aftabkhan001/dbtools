@@ -48,7 +48,7 @@ try:
         string_types="varchar,char,binary,varbinary,text,mediumtext,longtext,blob,mediumblob,longblob"
         if re.search(r''+ data_type +'', string_types, re.M|re.I):
            #return " REPEAT(\'*\', LENGTH(\`"+column+"\`))"
-           return " right(md5("+ column+ "), length(" + column +")) "
+           return " right(md5(\`"+ column+ "\`), length(\`" + column +"\`)) "
         else:
            return 0
 
