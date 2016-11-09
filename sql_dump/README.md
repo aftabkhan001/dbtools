@@ -106,7 +106,7 @@ total 208K
 ***Restore***
 
 When restoring backup, perform following steps:
-* Create database on destination server and disable `foreign key` checks
+* Create database on destination server
 ```
 mysql> CREATE DATABASE IF NOT EXISTS classicmodels_REDACTED;
 ```
