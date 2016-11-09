@@ -61,13 +61,14 @@ The list of supported data types
 ## Masking Rules
 All string values are replaced with MD5 checksum of the values stored in the column e.g. 'secret' would be masked as followed:
 ```
-SELECT RIGHT(MD5('secret'),LENGTH('secret'));
-+------------------------------------+
-| RIGHT(MD5('secret'),LENGTH('secret')) |
-+------------------------------------+
-| e17f72                             |
-+------------------------------------+
+SELECT SUBSTRING(MD5(RAND()) FROM 1 FOR LENGTH('secret'));
++----------------------------------------------------+
+| SUBSTRING(MD5(RAND()) FROM 1 FOR LENGTH('secret')) |
++----------------------------------------------------+
+| a386cb                                             |
++----------------------------------------------------+
 1 row in set (0.00 sec)
+
 ```
 Datetime and timestamp are replaced with `0000-00-00 00:00:00`, and numeric data is replaced with value 0
 
@@ -133,22 +134,22 @@ Enter password:
 
 Examine contents of `customers` table:
 ```
-mysql [classicmodels_REDACTED]> select * from customers limit 10;
-+----------------+------------------------------+-----------------+------------------+-------------------+------------------------------+--------------+---------------+----------+------------+-----------+------------------------+-------------+
-| customerNumber | customerName                 | contactLastName | contactFirstName | phone             | addressLine1                 | addressLine2 | city          | state    | postalCode | country   | salesRepEmployeeNumber | creditLimit |
-+----------------+------------------------------+-----------------+------------------+-------------------+------------------------------+--------------+---------------+----------+------------+-----------+------------------------+-------------+
-|            103 | 85178a8ddbb210f23            | dc6896b         | 7b4418b          | e7d37a4017        | 5cd671b78a43ce               | NULL         | Nantes        | NULL     | 44000      | France    |                   1370 |    21000.00 |
-|            112 | 12113da072c8cb38f6           | d885            | b9ab             | 833223700a        | 74fb0ca79714b8e              | NULL         | Las Vegas     | NV       | 83030      | USA       |                   1166 |    71800.00 |
-|            114 | 6bb38c814b819680199a62a78f   | 0199057b        | 3382f            | e54b35a3a4ed      | af957d29aaa43cb75            | 64ceae8      | Melbourne     | Victoria | 3004       | Australia |                   1611 |   117300.00 |
-|            119 | 81a61c05c4bfc222e            | 39753ae         | 9528dcd          | ee919d1a54        | 671756bd38b98bef230db5809cb0 | NULL         | Nantes        | NULL     | 44000      | France    |                   1370 |   118200.00 |
-|            121 | 6555d696cc4cad0ae9           | fe43d6ab0e      | 0438fb           | d1b1b15f93        | 56b73c7bf30bfa5b51de54       | NULL         | Stavern       | NULL     | 4110       | Norway    |                   1504 |    81700.00 |
-|            124 | 3da54937c9d16ef976f3aa7983b9 | 4af893          | cc76e            | f94c406820        | a1fa24c9f6e4412              | NULL         | San Rafael    | CA       | 97562      | USA       |                   1165 |   210500.00 |
-|            125 | 828adf12f6595eaa0b           | 2965853768ec984 | 9688a595         | 46ab548acf119     | 023fff8172325d2              | NULL         | Warszawa      | NULL     | 01-012     | Poland    |                   NULL |        0.00 |
-|            128 | 47aec0e3203f15dadf74         | 9a3baa          | d3a0fa           | 8993ede8b50c72ff2 | 6a6a340dc2a94                | NULL         | Frankfurt     | NULL     | 60528      | Germany   |                   1504 |    59700.00 |
-|            129 | 9dcb1729beae2bd              | 62c86c          | 647dd            | 60dd2b5a91        | 21bce2015c12b67f50d217a0e    | NULL         | San Francisco | CA       | 94217      | USA       |                   1165 |    64600.00 |
-|            131 | c95bc140aeb2e41b7            | a0f             | 6dc5             | 1154c3decb        | 6268a2776cfaaf843de0549      | NULL         | NYC           | NY       | 10022      | USA       |                   1323 |   114900.00 |
-+----------------+------------------------------+-----------------+------------------+-------------------+------------------------------+--------------+---------------+----------+------------+-----------+------------------------+-------------+
-10 rows in set (0.00 sec)
+mysql [classicmodels_REDACTED]>  select * from customers limit 1\G
+*************************** 1. row ***************************
+        customerNumber: 103
+          customerName: 0dfa59bc08f6eaeb4
+       contactLastName: 6099549
+      contactFirstName: b35b943
+                 phone: 37bdfb7215
+          addressLine1: 226d8ef722d36c
+          addressLine2: NULL
+                  city: Nantes
+                 state: NULL
+            postalCode: 44000
+               country: France
+salesRepEmployeeNumber: 1370
+           creditLimit: 21000.00
+1 row in set (0.00 sec)
 ```
 
 ## Known issues & limitations:
