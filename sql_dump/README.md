@@ -61,9 +61,9 @@ The list of supported data types
 ## Masking Rules
 All string values are replaced with MD5 checksum of the values stored in the column e.g. 'secret' would be masked as followed:
 ```
-SELECT RIGHT(MD5('abc'),LENGTH('secret'));
+SELECT RIGHT(MD5('secret'),LENGTH('secret'));
 +------------------------------------+
-| RIGHT(MD5('abc'),LENGTH('secret')) |
+| RIGHT(MD5('secret'),LENGTH('secret')) |
 +------------------------------------+
 | e17f72                             |
 +------------------------------------+
