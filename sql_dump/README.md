@@ -59,7 +59,7 @@ The list of supported data types
 * FLOAT
 
 ## Masking Rules
-All string values are replaced with MD5 checksum of the values stored in the column e.g. 'secret' would be masked as followed:
+All string values are replaced with MD5 checksum of a random value e.g. 'secret' would be masked as followed:
 ```
 SELECT SUBSTRING(MD5(RAND()) FROM 1 FOR LENGTH('secret'));
 +----------------------------------------------------+
